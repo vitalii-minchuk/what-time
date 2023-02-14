@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "pinia": "^2.0.28",
+    "timezones.json": "^1.6.1",
     "vue": "^3.2.45",
     "vuetify": "^3.1.0"
   },

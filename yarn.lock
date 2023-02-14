@@ -1912,6 +1912,11 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
+timezones.json@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/timezones.json/-/timezones.json-1.6.1.tgz#5c377bd27fe28ac95f707ef6b5e918ca3e61c794"
+  integrity sha512-lAYx2w4qyN2nzJ7wNSxdaNEgWjvuBvN6/AzLdOAN0BsVAvKJVkOqApPvgOKYeESWe40Qrxc+KPVc9eQiy3iCZw==
+
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"
