@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import GitHubSVG from './assets/icons/GitHubSVG.vue'
-import WhatTime from './components/WhatTime/WhatTime.vue'
-</script>
-
 <template>
   <v-app>
     <v-app-bar class="px-6">
@@ -26,3 +21,8 @@ import WhatTime from './components/WhatTime/WhatTime.vue'
     </main>
   </v-app>
 </template>
+
+<script setup lang="ts">
+import GitHubSVG from './assets/icons/GitHubSVG.vue'
+import WhatTime from './components/WhatTime/WhatTime.vue'
+</script>

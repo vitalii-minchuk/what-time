@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import timezones, { type Timezone } from 'timezones.json'
 
-export type TimeZoneSelected = Pick<Timezone, 'text' | 'offset'>
+export type TimeZoneSelected = Pick<Timezone, 'text' | 'offset' | 'isdst'>
 
 interface ITimeZoneState {
   timeZoneList: Timezone[]
@@ -23,7 +23,8 @@ export const useTimeZoneStore = defineStore('timeZone', {
     setTimeZone(item: TimeZoneSelected) {
       const newTimeZone = {
         text: item.text,
-        offset: item.offset
+        offset: item.offset,
+        isdst: item.isdst
       }
       this.timeZonesSelected.push(newTimeZone)
     }
