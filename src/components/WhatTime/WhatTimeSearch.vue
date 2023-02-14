@@ -1,5 +1,5 @@
 <template>
-  <div class="my-3">
+  <div class="overflow-y-auto" style="max-height: 300px">
     <input v-model="input" type="text" />
     <div>
       <div v-for="i in searchResult" :key="i.refIndex">
@@ -20,7 +20,7 @@ const timeZoneStore = useTimeZoneStore()
 const input = ref('')
 const fuse = new Fuse(timeZoneStore.getTimeZoneList, {
   keys: ['utc', 'value'],
-  threshold: 0.5
+  threshold: 0.3
 })
 const searchResult = computed(() => fuse.search(input.value))
 

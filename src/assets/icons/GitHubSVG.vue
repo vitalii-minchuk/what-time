@@ -14,8 +14,4 @@
   </svg>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'PajamasGithub'
-}
-</script>
+<script setup lang="ts"></script>

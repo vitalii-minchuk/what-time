@@ -1,9 +1,9 @@
 <template>
-  <v-app>
+  <v-app :theme="isDark ? 'dark' : 'light'">
     <v-app-bar class="px-6">
       <v-alert-title>What time</v-alert-title>
       <v-spacer></v-spacer>
-      <v-row justify="end">
+      <v-row justify="end" align="center">
         <v-btn>
           <a
             href="https://github.com/vitalii-minchuk/what-time"
@@ -12,7 +12,8 @@
             <GitHubSVG />
           </a>
         </v-btn>
-        <v-btn> ok </v-btn>
+        <v-btn @click="toggleDark()" :icon="isDark ? TheSunSVG : TheMoonSVG">
+        </v-btn>
       </v-row>
     </v-app-bar>
 
@@ -24,5 +25,11 @@
 
 <script setup lang="ts">
 import GitHubSVG from './assets/icons/GitHubSVG.vue'
+import TheSunSVG from './assets/icons/TheSunSVG.vue'
+import TheMoonSVG from './assets/icons/TheMoonSVG.vue'
 import WhatTime from './components/WhatTime/WhatTime.vue'
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>
