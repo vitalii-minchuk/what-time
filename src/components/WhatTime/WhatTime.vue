@@ -1,22 +1,22 @@
 <template>
   <v-container>
     <WhatTimeSearch />
-    <WhatTimeCard />
+    <WhatTimeCard :currentTimeZone="currentTimeZone" />
   </v-container>
 </template>
 
 <script setup lang="ts">
-import WhatTimeSearch from '@/components/WhatTime/WhatTimeSearch.vue'
 import WhatTimeCard from '@/components/WhatTime/WhatTimeCard.vue'
+import WhatTimeSearch from '@/components/WhatTime/WhatTimeSearch.vue'
+import { useTimeZoneStore } from '@/stores/timeZone'
 import timezones from 'timezones.json'
 import { onMounted } from 'vue'
-import { useTimeZoneStore } from '@/stores/timeZone'
+
+const timeZoneStore = useTimeZoneStore()
+const userTimeZone = new window.Intl.DateTimeFormat().resolvedOptions().timeZone
+const currentTimeZone = timezones.find((t) => t.utc.includes(userTimeZone))
 
 onMounted(() => {
-  const timeZoneStore = useTimeZoneStore()
-  const userTimeZone = new window.Intl.DateTimeFormat().resolvedOptions()
-    .timeZone
-  const currentTimeZone = timezones.find((t) => t.utc.includes(userTimeZone))
   if (currentTimeZone) {
     timeZoneStore.setTimeZone(currentTimeZone)
   }
