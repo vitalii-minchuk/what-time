@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4 position-relative">
+  <v-card class="pa-4 position-relative" ref="cardRef">
     <div class="pa-2" v-for="(zone, i) in timeZonesSelected" :key="zone.text">
       <div class="d-flex align-center">
         <v-col cols="1">
@@ -50,36 +50,53 @@
       </div>
     </div>
     <div
+      v-if="props.isCalendar"
       class="frame"
-      ref="el"
-      :style="{ right: elX + 'px', width: '100px' }"
+      :class="{ active: isFrame }"
+      ref="frameRef"
+      :style="position"
     />
-    {{ elX }}
   </v-card>
 </template>
 
 <script setup lang="ts">
 import ArrowFilledSVG from '@/assets/icons/ArrowFilledSVG.vue'
 import { useTimeZoneStore, type TimeZoneSelected } from '@/stores/timeZone'
-import { useNow, useDateFormat, useMouseInElement } from '@vueuse/core'
+import {
+  useNow,
+  useDateFormat,
+  useMouseInElement,
+  useMousePressed,
+  useElementHover
+} from '@vueuse/core'
 import type { Timezone } from 'timezones.json'
 import { computed, ref, watchEffect } from 'vue'
 
 const props = defineProps<{
   currentTimeZone?: Timezone
+  isCalendar: boolean
 }>()
 const timeZoneStore = useTimeZoneStore()
 const timeZonesSelected = computed<TimeZoneSelected[]>(
   () => timeZoneStore.getTimeZonesSelected
 )
-const el = ref<HTMLDivElement>()
-const data = useMouseInElement(el)
-const elX = computed(() => data.x.value + data.elementX.value)
-const position = computed(() => {
-  return {
-    left: `${data.x.value} px`
+const cardRef = ref<HTMLDivElement>()
+const frameRef = ref<HTMLDivElement>()
+const cardEl = useMouseInElement(cardRef)
+const isFrame = useElementHover(frameRef)
+const { pressed } = useMousePressed()
+const width = ref(50)
+const left = ref(300)
+watchEffect(() => {
+  if (!pressed.value) return
+  if (isFrame.value) {
+    left.value = cardEl.elementX.value
   }
 })
+const position = computed(() => ({
+  left: `${left.value - 25}px`,
+  width: `${width.value}px`
+}))
 watchEffect(() => {})
 function getLocalTime(offset: number) {
   if (!props.currentTimeZone) return
@@ -121,5 +138,8 @@ function getName(item: TimeZoneSelected) {
   bottom: 0;
   background: transparent;
   border: 2px solid palevioletred;
+}
+.active {
+  cursor: grab;
 }
 </style>
