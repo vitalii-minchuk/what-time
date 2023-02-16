@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4">
+  <v-card class="pa-4 position-relative">
     <div class="pa-2" v-for="(zone, i) in timeZonesSelected" :key="zone.text">
       <div class="d-flex align-center">
         <v-col cols="1">
@@ -49,15 +49,21 @@
         </div>
       </div>
     </div>
+    <div
+      class="frame"
+      ref="el"
+      :style="{ right: elX + 'px', width: '100px' }"
+    />
+    {{ elX }}
   </v-card>
 </template>
 
 <script setup lang="ts">
 import ArrowFilledSVG from '@/assets/icons/ArrowFilledSVG.vue'
 import { useTimeZoneStore, type TimeZoneSelected } from '@/stores/timeZone'
-import { useNow, useDateFormat } from '@vueuse/core'
+import { useNow, useDateFormat, useMouseInElement } from '@vueuse/core'
 import type { Timezone } from 'timezones.json'
-import { computed } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 
 const props = defineProps<{
   currentTimeZone?: Timezone
@@ -66,6 +72,15 @@ const timeZoneStore = useTimeZoneStore()
 const timeZonesSelected = computed<TimeZoneSelected[]>(
   () => timeZoneStore.getTimeZonesSelected
 )
+const el = ref<HTMLDivElement>()
+const data = useMouseInElement(el)
+const elX = computed(() => data.x.value + data.elementX.value)
+const position = computed(() => {
+  return {
+    left: `${data.x.value} px`
+  }
+})
+watchEffect(() => {})
 function getLocalTime(offset: number) {
   if (!props.currentTimeZone) return
   const userOffset = props.currentTimeZone.offset * 60 * 60 * 1000
@@ -99,5 +114,12 @@ function getName(item: TimeZoneSelected) {
   height: 27px;
   text-align: center;
   border: 1px solid gray;
+}
+.frame {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: transparent;
+  border: 2px solid palevioletred;
 }
 </style>

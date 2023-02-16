@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="max-width: 900px">
     <WhatTimeSearch />
     <WhatTimeCard :currentTimeZone="currentTimeZone" />
   </v-container>

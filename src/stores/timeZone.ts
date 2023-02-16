@@ -1,3 +1,4 @@
+import { useStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import timezones, { type Timezone } from 'timezones.json'
 import { computed, ref } from 'vue'
@@ -6,12 +7,16 @@ export type TimeZoneSelected = Pick<Timezone, 'text' | 'offset' | 'isdst'>
 
 export const useTimeZoneStore = defineStore('timeZone', () => {
   const timeZoneList = ref<Timezone[]>(timezones)
-  const timeZonesSelected = ref<TimeZoneSelected[]>([])
+  const timeZonesSelected = ref(
+    useStorage('timeZones', [] as TimeZoneSelected[]).value
+  )
 
   const getTimeZoneList = computed(() => timeZoneList.value)
   const getTimeZonesSelected = computed(() => timeZonesSelected.value)
 
   function setTimeZone(item: TimeZoneSelected) {
+    const exists = timeZonesSelected.value.some((t) => t.text == item.text)
+    if (exists) return
     const newTimeZone = {
       text: item.text,
       offset: item.offset,
